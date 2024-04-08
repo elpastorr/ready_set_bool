@@ -1,6 +1,6 @@
 use ex00_adder::adder;
 
-pub fn multiplier(a: u32, b: u32) -> u32 {
+fn multiplier(a: u32, b: u32) -> u32 {
     if b == 0 {
         return 0;
     }
@@ -10,4 +10,8 @@ pub fn multiplier(a: u32, b: u32) -> u32 {
     else {
         adder(a, multiplier(a, b >> 1) << 1)
     }
+}
+
+pub fn test_multiplier(a: u32, b: u32) {
+    println!("{a} * {b} = {}", multiplier(a, b));
 }

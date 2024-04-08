@@ -10,7 +10,7 @@ fn valid_input(c: char) -> bool {
     return false;
 }
 
-pub fn print_truth_table(formula: &str) {
+fn print_truth_table(formula: &str) {
     let mut letters: Vec<char> = Vec::new();
     for c in formula.chars() {
         if !valid_input(c) {
@@ -46,6 +46,10 @@ pub fn print_truth_table(formula: &str) {
 
         println!("| {} |", eval_formula(&formula) as u32);
     }
-    // println!("{nb_comb}");
-    // println!("len = {}", 2_u32.pow(letters.len() as u32));
+}
+
+pub fn test_print_truth_table(formula: &str) {
+    println!("{formula}");
+    print_truth_table(formula);
+    println!("");
 }

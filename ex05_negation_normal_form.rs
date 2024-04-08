@@ -60,7 +60,9 @@ impl OpNode {
             Some(right) => out += &right.to_string(),
             None => (),
         }
-
+        if self.value == '*' {
+            println!("Invalid formula ! The result is not valid");
+        }
         out.push(self.value);
         return out;
     }
@@ -160,11 +162,15 @@ impl OpNode {
 }
 
 
-pub fn negation_normal_form(formula: &str) -> String {
+fn negation_normal_form(formula: &str) -> String {
     let mut to_char = formula.chars();
     let mut node = OpNode::new();
     node.fill_node(&mut to_char);
     node.change_form();
 
     return node.to_string();
+}
+
+pub fn test_negation_normal_form(formula: &str) {
+	println!("{formula} -> {}", negation_normal_form(formula));
 }

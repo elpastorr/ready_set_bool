@@ -39,3 +39,7 @@ pub fn eval_formula(formula: &str) -> bool {
     }
     return vec.pop().expect("");
 }
+
+pub fn test_eval_formula(formula: &str) {
+    println!("{formula} -> {}", eval_formula(formula));
+}

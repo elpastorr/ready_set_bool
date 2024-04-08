@@ -60,7 +60,9 @@ impl OpNode {
             Some(right) => out += &right.to_string(),
             None => (),
         }
-
+        if self.value == '*' {
+            println!("Invalid formula ! The result is not valid");
+        }
         out.push(self.value);
         return out;
     }
@@ -158,11 +160,40 @@ impl OpNode {
         }
     }
 
-    fn conjunctive_form()
+    fn possible_conjunction(&mut self) -> bool {
+        if "&|".contains(self.value) {
+            if self.value == self.left.as_ref().unwrap().value {
+                if self.right.as_ref().unwrap().value.is_ascii_uppercase() {
+                    return true;
+                }
+                if self.right.as_ref().unwrap().value == '!' && self.right.as_ref().unwrap().right.as_ref().unwrap().value.is_ascii_uppercase() {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    fn conjunctive_form(&mut self) {
+        match self.left.as_mut() {
+            Some(left) => left.conjunctive_form(),
+            None => (),
+        }
+
+        match self.right.as_mut() {
+            Some(right) => right.conjunctive_form(),
+            None => (),
+        }
+
+        if self.possible_conjunction() {
+            std::mem::swap(&mut self.left, &mut self.right);
+            self.conjunctive_form();
+        }
+    }
 }
 
 
-pub fn conjunctive_normal_form(formula: &str) -> String {
+fn conjunctive_normal_form(formula: &str) -> String {
     let mut to_char = formula.chars();
     let mut node = OpNode::new();
     node.fill_node(&mut to_char);
@@ -170,4 +201,8 @@ pub fn conjunctive_normal_form(formula: &str) -> String {
     node.conjunctive_form();
 
     return node.to_string();
+}
+
+pub fn test_conjunctive_normal_form(formula: &str) {
+	println!("{formula} -> {}", conjunctive_normal_form(formula));
 }

@@ -7,12 +7,20 @@ mod ex05_negation_normal_form;
 mod ex06_conjunctive_normal_form;
 mod ex07_sat;
 mod ex08_powerset;
+mod ex09_eval_set;
 
 fn main() {
     let mut _a: u32 = 6;
     let _b: u32 = 7;
-    // let vec: Vec<i32> = Vec::new();
-    let mut vec: Vec<i32> = (0..3).collect();
+    let vec: Vec<i32> = Vec::new();
+    vec.push(21);
+    vec.push(42);
+    vec.push(69);
+    let sets = vec![
+        vec![0, 1, 3, 5],
+        vec![0, 3, 2, 4],
+        vec![3, 42, 21],
+    ];
 
     println!("ex00:");
     ex00_adder::test_adder(_a, _b);
@@ -50,7 +58,10 @@ fn main() {
     ex07_sat::test_sat("AA^");
 
     println!("\nex08:");
-    ex08_powerset::powerset(vec);
+    ex08_powerset::test_powerset(vec);
+
+    println!("\nex09:");
+    ex09_eval_set::test_eval_set("AB&C|", sets);
 }
 
 // fn main() {

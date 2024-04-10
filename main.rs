@@ -8,11 +8,13 @@ mod ex06_conjunctive_normal_form;
 mod ex07_sat;
 mod ex08_powerset;
 mod ex09_eval_set;
+mod ex10_curve;
+mod ex11_inverse_curve;
 
 fn main() {
     let mut _a: u32 = 6;
     let _b: u32 = 7;
-    let vec: Vec<i32> = Vec::new();
+    let mut vec: Vec<i32> = Vec::new();
     vec.push(21);
     vec.push(42);
     vec.push(69);
@@ -62,6 +64,16 @@ fn main() {
 
     println!("\nex09:");
     ex09_eval_set::test_eval_set("AB&C|", sets);
+
+    println!("\nex10:");
+    ex10_curve::test_map(0, 0);
+    ex10_curve::test_map(65535, 65535);
+    ex10_curve::test_map(100, 100);
+
+    println!("\nex11:");
+    ex11_inverse_curve::test_reverse_map(0.0);
+    ex11_inverse_curve::test_reverse_map(1.0);
+    ex11_inverse_curve::test_reverse_map(0.0000035874545582540926);
 }
 
 // fn main() {

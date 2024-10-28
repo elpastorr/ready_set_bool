@@ -9,101 +9,230 @@ mod ex07_sat;
 mod ex08_powerset;
 mod ex09_eval_set;
 mod ex10_curve;
+use ex10_curve::map;
 mod ex11_inverse_curve;
 
 fn main() {
-    let mut _a: u32 = 6;
-    let _b: u32 = 7;
-    let mut vec: Vec<i32> = Vec::new();
-    vec.push(21);
-    vec.push(42);
-    vec.push(69);
-    let sets = vec![
-        vec![0, 1, 3, 5],
-        vec![0, 3, 2, 4],
-        vec![3, 42, 21],
-    ];
-
     println!("ex00:");
-    ex00_adder::test_adder(_a, _b);
+    ex00_adder::test_adder(0, 0);
+    ex00_adder::test_adder(1, 0);
+    ex00_adder::test_adder(0, 1);
+    ex00_adder::test_adder(1, 1);
+    ex00_adder::test_adder(1, 2);
+    ex00_adder::test_adder(2, 2);
+
 
     println!("\nex01:");
-    ex01_multiplier::test_multiplier(_a, _b);
+    ex01_multiplier::test_multiplier(0, 0);
+    ex01_multiplier::test_multiplier(1, 0);
+    ex01_multiplier::test_multiplier(0, 1);
+    ex01_multiplier::test_multiplier(1, 1);
+    ex01_multiplier::test_multiplier(1, 2);
+    ex01_multiplier::test_multiplier(2, 2);
+
 
     println!("\nex02:");
-    ex02_gray_code::test_gray_code(_a);
-    ex02_gray_code::test_gray_code(_b);
+    for i in 0..16 {
+        ex02_gray_code::test_gray_code(i);
+    }
+
 
     println!("\nex03:");
-    ex03_boolean_eval::test_eval_formula("1011||=");
+    ex03_boolean_eval::test_eval_formula("0!");
+    ex03_boolean_eval::test_eval_formula("1!");
+    ex03_boolean_eval::test_eval_formula("00|");
+    ex03_boolean_eval::test_eval_formula("10|");
+    ex03_boolean_eval::test_eval_formula("01|");
+    ex03_boolean_eval::test_eval_formula("11|");
+    ex03_boolean_eval::test_eval_formula("10&");
+    ex03_boolean_eval::test_eval_formula("11&");
+    ex03_boolean_eval::test_eval_formula("11^");
+    ex03_boolean_eval::test_eval_formula("10^");
+    ex03_boolean_eval::test_eval_formula("00>");
+    ex03_boolean_eval::test_eval_formula("01>");
+    ex03_boolean_eval::test_eval_formula("10>");
+    ex03_boolean_eval::test_eval_formula("11>");
+    ex03_boolean_eval::test_eval_formula("00=");
+    ex03_boolean_eval::test_eval_formula("11=");
+    ex03_boolean_eval::test_eval_formula("10=");
+    ex03_boolean_eval::test_eval_formula("01=");
+
+    ex03_boolean_eval::test_eval_formula("11&0|");
+    ex03_boolean_eval::test_eval_formula("10&1|");
+    ex03_boolean_eval::test_eval_formula("11&1|");
+    ex03_boolean_eval::test_eval_formula("11&1|1^");
+    ex03_boolean_eval::test_eval_formula("01&1|1=");
+    ex03_boolean_eval::test_eval_formula("01&1&1&");
+    ex03_boolean_eval::test_eval_formula("0111&&&");
+
 
     println!("\nex04:");
-    ex04_truth_table::test_print_truth_table("AB&A!B!&|");
-    ex04_truth_table::test_print_truth_table("A!B|B!A|&");
+    ex04_truth_table::test_print_truth_table("A");
+    ex04_truth_table::test_print_truth_table("A!");
+    ex04_truth_table::test_print_truth_table("AB|");
+    ex04_truth_table::test_print_truth_table("AB&");
+    ex04_truth_table::test_print_truth_table("AB^");
+    ex04_truth_table::test_print_truth_table("AB>");
+    ex04_truth_table::test_print_truth_table("AB=");
+    ex04_truth_table::test_print_truth_table("AA=");
+
+    ex04_truth_table::test_print_truth_table("ABC==");
+    ex04_truth_table::test_print_truth_table("AB>C>");
+    ex04_truth_table::test_print_truth_table("AB>A>A>");
+
 
     println!("\nex05:");
+    ex05_negation_normal_form::test_negation_normal_form("A");
+    ex05_negation_normal_form::test_negation_normal_form("A!");
     ex05_negation_normal_form::test_negation_normal_form("AB&!");
     ex05_negation_normal_form::test_negation_normal_form("AB|!");
-    ex05_negation_normal_form::test_negation_normal_form("AB>");
-    ex05_negation_normal_form::test_negation_normal_form("AB=");
-    ex05_negation_normal_form::test_negation_normal_form("AB|C&!");
+    ex05_negation_normal_form::test_negation_normal_form("AB>!");
+    ex05_negation_normal_form::test_negation_normal_form("AB=!");
+
+    ex05_negation_normal_form::test_negation_normal_form("ABC||");
+    ex05_negation_normal_form::test_negation_normal_form("ABC||!");
+    ex05_negation_normal_form::test_negation_normal_form("ABC|&");
+    ex05_negation_normal_form::test_negation_normal_form("ABC&|");
+    ex05_negation_normal_form::test_negation_normal_form("ABC&|!");
+    ex05_negation_normal_form::test_negation_normal_form("ABC^^");
+    ex05_negation_normal_form::test_negation_normal_form("ABC>>");
+
 
     println!("\nex06:");
-    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB|C|D|");
-    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB&C&D&");
-    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB&!C!|");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("A");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("A!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB&!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB|!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB>!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB=!");
+
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC||");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC||!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC|&");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC&|");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC&|!");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC^^");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC>>");
+
 
     println!("\nex07:");
-    ex07_sat::test_sat("AB&");
-    ex07_sat::test_sat("AB|");
+    ex07_sat::test_sat("A");
+    ex07_sat::test_sat("A!");
+    ex07_sat::test_sat("AA|");
+    ex07_sat::test_sat("AA&");
     ex07_sat::test_sat("AA!&");
     ex07_sat::test_sat("AA^");
+    ex07_sat::test_sat("AB^");
+    ex07_sat::test_sat("AB=");
+    ex07_sat::test_sat("AA>");
+    ex07_sat::test_sat("AA!>");
+
+    ex07_sat::test_sat("ABC||");
+    ex07_sat::test_sat("AB&A!B!&&");
+    ex07_sat::test_sat("ABCDE&&&&");
+    ex07_sat::test_sat("AAA^^");
+    ex07_sat::test_sat("ABCDE^^^^");
+
 
     println!("\nex08:");
-    ex08_powerset::test_powerset(vec);
+    let mut vec: Vec<i32> = Vec::new();
+    ex08_powerset::test_powerset(vec.clone());
+    vec.push(21);
+    ex08_powerset::test_powerset(vec.clone());
+    vec.push(42);
+    ex08_powerset::test_powerset(vec.clone());
+    vec.push(69);
+    ex08_powerset::test_powerset(vec.clone());
+
+
+    let set_null = vec![
+        vec![],
+    ];
+    let set42 = vec![
+        vec![42],
+    ];
+    let set1 = vec![
+        vec![1, 2, 3],
+        vec![2, 3, 4],
+    ];
+    let set2 = vec![
+        vec![0, 1, 2],
+        vec![],
+    ];
+    let set3 = vec![
+        vec![0, 1, 2],
+        vec![0],
+    ];
+    let set4 = vec![
+        vec![0, 1, 2],
+        vec![42],
+    ];
+    let set5 = vec![
+        vec![0],
+        vec![1, 2],
+    ];
+    let set6 = vec![
+        vec![0],
+        vec![0, 1, 2],
+    ];
+    let set7 = vec![
+        vec![],
+        vec![],
+        vec![],
+    ];
+    let set8 = vec![
+        vec![0],
+        vec![1],
+        vec![2],
+    ];
+    let set9 = vec![
+        vec![0],
+        vec![0],
+        vec![0],
+    ];
+    let set10 = vec![
+        vec![0],
+        vec![0],
+        vec![],
+    ];
 
     println!("\nex09:");
-    ex09_eval_set::test_eval_set("AB&C|", sets);
+    ex09_eval_set::test_eval_set("A", set_null.clone());
+    ex09_eval_set::test_eval_set("A!", set_null.clone());
+    ex09_eval_set::test_eval_set("A", set42.clone());
+    ex09_eval_set::test_eval_set("A!", set42.clone());
+    ex09_eval_set::test_eval_set("A!B&", set1.clone());
+    ex09_eval_set::test_eval_set("AB|", set2.clone());
+    ex09_eval_set::test_eval_set("AB&", set2.clone());
+    ex09_eval_set::test_eval_set("AB&", set3.clone());
+    ex09_eval_set::test_eval_set("AB&", set4.clone());
+    ex09_eval_set::test_eval_set("AB^", set3.clone());
+    ex09_eval_set::test_eval_set("AB>", set5.clone());
+    ex09_eval_set::test_eval_set("AB>", set6.clone());
+
+    ex09_eval_set::test_eval_set("ABC||", set7.clone());
+    ex09_eval_set::test_eval_set("ABC||", set8.clone());
+    ex09_eval_set::test_eval_set("ABC||", set9.clone());
+    ex09_eval_set::test_eval_set("ABC&&", set10.clone());
+    ex09_eval_set::test_eval_set("ABC&&", set9.clone());
+    ex09_eval_set::test_eval_set("ABC^^", set9.clone());
+    ex09_eval_set::test_eval_set("ABC>>", set9.clone());
+
 
     println!("\nex10:");
     ex10_curve::test_map(0, 0);
     ex10_curve::test_map(65535, 65535);
     ex10_curve::test_map(100, 100);
 
+
     println!("\nex11:");
     ex11_inverse_curve::test_reverse_map(0.0);
+    ex11_inverse_curve::test_reverse_map(map(0, 0));
+    println!("");
     ex11_inverse_curve::test_reverse_map(1.0);
+    ex11_inverse_curve::test_reverse_map(map(65535, 65535));
+    println!("");
     ex11_inverse_curve::test_reverse_map(0.0000035874545582540926);
-}
+    ex11_inverse_curve::test_reverse_map(map(100, 100));
 
-// fn main() {
-//     // create some strings
-//     let str1 = "Educative is the best platform!";
-//     let str2 = "Rust";
-//     let str3 = "Welcome to Edpresso";
-//     let str4 = "Programming";
-  
-//     // create the matches
-//     let match1 = "is";
-//     let match2 = 'R';
-//     let match3 = "to";
-//     let match4 = "23";
-  
-//     // find the matches and print byte indices
-//     println!(" {:?}", str1.find(match1));
-//     println!(" {:?}", str2.find(match2));
-//     println!(" {:?}", str3.find(match3));
-//     println!(" {:?}", str4.find(match4));
-//     if str1.find(match1).is_some() {
-//         println!("1");
-//     }
-//     if str2.find(match2).is_some() {
-//         println!("2");
-//     }
-//     if str3.find(match3).is_some() {
-//         println!("3");
-//     }
-//     if str4.find(match4).is_some() {
-//         println!("4");
-//     }
-// }
+}

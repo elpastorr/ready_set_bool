@@ -249,5 +249,5 @@ fn eval_set(formula: &str, sets: Vec<Vec<i32>>) -> Vec<i32> {
 
 pub fn test_eval_set(formula: &str, sets: Vec<Vec<i32>>) {
 	println!("formula: {formula}\nsets: {:?}", sets);
-	println!("result: {:?}", eval_set(formula, sets));
+	println!("result: {:?}\n", eval_set(formula, sets));
 }

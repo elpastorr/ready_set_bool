@@ -19,5 +19,5 @@ fn powerset(set: Vec<i32>) -> Vec<Vec<i32>> {
 
 pub fn test_powerset(set: Vec<i32>) {
 	println!("Powerset of {:?}:", set);
-	println!("{:?}", powerset(set));
+	println!("{:?}\n", powerset(set));
 }

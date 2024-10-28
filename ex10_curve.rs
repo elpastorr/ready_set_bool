@@ -1,4 +1,4 @@
-fn map(x: u16, y: u16) -> f64 {
+pub fn map(x: u16, y: u16) -> f64 {
 	let mut res: u32 = 0;
 	let mut tbit: u32 = 1;
 	let mut sbit: u16 = 1;

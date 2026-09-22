@@ -131,7 +131,7 @@ impl OpNode {
             self.right = Some(Box::new(right_node));
             self.change_form();
         }
-        else if self.value == '=' {// A=B -> (A>B)&(B>A) ??? AB&A!B!&|
+        else if self.value == '=' {
             self.value = '&';
 
             let mut right_node = OpNode::new();

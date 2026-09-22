@@ -94,7 +94,7 @@ fn main() {
     ex05_negation_normal_form::test_negation_normal_form("ABC|&");
     ex05_negation_normal_form::test_negation_normal_form("ABC&|");
     ex05_negation_normal_form::test_negation_normal_form("ABC&|!");
-    ex05_negation_normal_form::test_negation_normal_form("ABC^^");
+    ex05_negation_normal_form::test_negation_normal_form("AB^");
     ex05_negation_normal_form::test_negation_normal_form("ABC>>");
 
 
@@ -111,7 +111,7 @@ fn main() {
     ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC|&");
     ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC&|");
     ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC&|!");
-    ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC^^");
+    ex06_conjunctive_normal_form::test_conjunctive_normal_form("AB^");
     ex06_conjunctive_normal_form::test_conjunctive_normal_form("ABC>>");
 
 
@@ -206,7 +206,7 @@ fn main() {
     ex09_eval_set::test_eval_set("AB&", set2.clone());
     ex09_eval_set::test_eval_set("AB&", set3.clone());
     ex09_eval_set::test_eval_set("AB&", set4.clone());
-    ex09_eval_set::test_eval_set("AB^", set3.clone());
+    ex09_eval_set::test_eval_set("AB^^", set3.clone());
     ex09_eval_set::test_eval_set("AB>", set5.clone());
     ex09_eval_set::test_eval_set("AB>", set6.clone());
 

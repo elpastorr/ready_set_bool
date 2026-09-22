@@ -1,11 +1,10 @@
-pub fn adder(a: u32, b: u32) -> u32 {
-    let res = a ^ b;
-    let ret = (a & b) << 1;
-    if ret == 0 {
-        res
-    } else {
-        adder(res, ret)
+pub fn adder(mut a: u32, mut b: u32) -> u32 {
+    while b != 0 {
+        let ret = a & b;
+        a = a ^ b;
+        b = ret << 1;
     }
+    a
 }
 
 pub fn test_adder(a: u32, b: u32) {

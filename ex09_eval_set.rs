@@ -166,7 +166,7 @@ impl OpNode {
 		let mut vars: String = String::from("");
 		let mut all_sets: Vec<i32> = Vec::new();
 
-		for c in 'A'..'Z' {
+		for c in 'A'..='Z' {
 			if formula.contains(c) {
 				vars.push(c);
 			}

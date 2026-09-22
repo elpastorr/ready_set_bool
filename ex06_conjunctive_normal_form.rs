@@ -15,20 +15,23 @@ impl OpNode {
         }
     }
 
-    fn copy(&mut self) -> Option<Box<OpNode>> {
+    fn copy(&self) -> Option<Box<OpNode>> {
         let mut new_node = OpNode::new();
         new_node.value = self.value;
-
-        match self.left.as_mut() {
+    
+        match self.left.as_ref() {
             None => (),
             Some(left) => new_node.left = left.copy(),
         }
-        match self.right.as_mut() {
+    
+        match self.right.as_ref() {
             None => (),
             Some(right) => new_node.right = right.copy(),
         }
-        return Some(Box::new(new_node));
+    
+        Some(Box::new(new_node))
     }
+
 
     fn fill_node(&mut self, ops: &mut Chars) {
         let op = ops.next_back();
@@ -79,12 +82,14 @@ impl OpNode {
         }
 
         if self.value == '!' {
+            // !!A -> A
             if self.right.as_ref().unwrap().value == '!' {
                 self.value = self.right.as_ref().unwrap().right.as_ref().unwrap().value;
                 self.left = self.right.as_mut().unwrap().right.as_mut().unwrap().left.take();
                 self.right = self.right.as_mut().unwrap().right.as_mut().unwrap().right.take();
                 self.change_form();
             }
+            // !(A & B) -> !A | !B OR !(A | B) = !A & !B
             else if "&|".contains(self.right.as_ref().unwrap().value) {
                 if self.right.as_ref().unwrap().value == '&' {
                     self.value = '|';
@@ -106,31 +111,33 @@ impl OpNode {
                 self.change_form();
             }
         }
+        // A ^ B -> (A | B) & (!A | !B)
         else if self.value == '^' {
-            self.value = '|';
+            self.value = '&';
 
             let mut right_left_node = OpNode::new();
             right_left_node.value = '!';
             right_left_node.right = self.left.as_mut().unwrap().copy();
 
-            let mut left_right_node = OpNode::new();
-            left_right_node.value = '!';
-            left_right_node.right = self.right.as_mut().unwrap().copy();
+            let mut right_right_node = OpNode::new();
+            right_right_node.value = '!';
+            right_right_node.right = self.right.as_mut().unwrap().copy();
 
             let mut right_node = OpNode::new();
-            right_node.value = '&';
-            right_node.right = self.right.as_mut().unwrap().copy();
+            right_node.value = '|';
+            right_node.right = Some(Box::new(right_right_node));
             right_node.left = Some(Box::new(right_left_node));
 
             let mut left_node = OpNode::new();
-            left_node.value = '&';
-            left_node.right = Some(Box::new(left_right_node));
+            left_node.value = '|';
+            left_node.right = self.right.as_mut().unwrap().copy();
             left_node.left = self.left.as_mut().unwrap().copy();
 
             self.left = Some(Box::new(left_node));
             self.right = Some(Box::new(right_node));
             self.change_form();
         }
+        // A = B -> (A > B) & (B > A)
         else if self.value == '=' {
             self.value = '&';
 
@@ -148,6 +155,7 @@ impl OpNode {
             self.right = Some(Box::new(right_node));
             self.change_form();
         }
+        // A > B -> !A | B
         else if self.value == '>' {
             self.value = '|';
 
@@ -158,50 +166,76 @@ impl OpNode {
             self.left = Some(Box::new(left_node));
             self.change_form();
         }
-    }
 
-    fn possible_conjunction(&mut self) -> bool {
-        if "&|".contains(self.value) {
-            if self.value == self.left.as_ref().unwrap().value {
-                if self.right.as_ref().unwrap().value.is_ascii_uppercase() {
-                    return true;
-                }
-                if self.right.as_ref().unwrap().value == '!' && self.right.as_ref().unwrap().right.as_ref().unwrap().value.is_ascii_uppercase() {
-                    return true;
-                }
+
+        else if self.value == '|' {
+            // (A & B) | C -> (A | C) & (B | C)
+            if self.left.as_ref().unwrap().value == '&' {
+                let left = self.left.take().unwrap();
+                let right = self.right.take().unwrap();
+
+                let a = left.left.unwrap();
+                let b = left.right.unwrap();
+
+                let right_copy = right.copy().unwrap();
+
+                let mut first = OpNode::new();
+                first.value = '|';
+                first.left = Some(a);
+                first.right = Some(right_copy);
+
+                let mut second = OpNode::new();
+                second.value = '|';
+                second.left = Some(b);
+                second.right = Some(right);
+
+                self.value = '&';
+                self.left = Some(Box::new(first));
+                self.right = Some(Box::new(second));
+
+                self.change_form();
             }
-        }
-        return false;
-    }
+            // A | (B & C) -> (A | B) & (A | C)
+            else if self.right.as_ref().unwrap().value == '&' {
+                let left = self.left.take().unwrap();
+                let right = self.right.take().unwrap();
 
-    fn conjunctive_form(&mut self) {
-        match self.left.as_mut() {
-            Some(left) => left.conjunctive_form(),
-            None => (),
-        }
+                let b = right.left.unwrap();
+                let c = right.right.unwrap();
 
-        match self.right.as_mut() {
-            Some(right) => right.conjunctive_form(),
-            None => (),
-        }
+                let left_copy = left.copy().unwrap();
 
-        if self.possible_conjunction() {
-            std::mem::swap(&mut self.left, &mut self.right);
-            self.conjunctive_form();
+                let mut first = OpNode::new();
+                first.value = '|';
+                first.left = Some(left_copy);
+                first.right = Some(b);
+
+                let mut second = OpNode::new();
+                second.value = '|';
+                second.left = Some(left);
+                second.right = Some(c);
+
+                self.value = '&';
+                self.left = Some(Box::new(first));
+                self.right = Some(Box::new(second));
+
+                self.change_form();
+            }
         }
     }
 }
-
 
 fn conjunctive_normal_form(formula: &str) -> String {
     let mut to_char = formula.chars();
+
     let mut node = OpNode::new();
     node.fill_node(&mut to_char);
-    node.change_form();
-    node.conjunctive_form();
 
-    return node.to_string();
+    node.change_form();
+
+    node.to_string()
 }
+
 
 pub fn test_conjunctive_normal_form(formula: &str) {
 	println!("{formula} -> {}", conjunctive_normal_form(formula));

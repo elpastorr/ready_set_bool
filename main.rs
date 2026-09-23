@@ -19,7 +19,7 @@ fn main() {
     ex00_adder::test_adder(0, 1);
     ex00_adder::test_adder(1, 1);
     ex00_adder::test_adder(1, 2);
-    ex00_adder::test_adder(5, 7);
+    ex00_adder::test_adder(2, 2);
 
 
     println!("\nex01:");
@@ -206,7 +206,7 @@ fn main() {
     ex09_eval_set::test_eval_set("AB&", set2.clone());
     ex09_eval_set::test_eval_set("AB&", set3.clone());
     ex09_eval_set::test_eval_set("AB&", set4.clone());
-    ex09_eval_set::test_eval_set("AB^^", set3.clone());
+    ex09_eval_set::test_eval_set("AB^", set5.clone());
     ex09_eval_set::test_eval_set("AB>", set5.clone());
     ex09_eval_set::test_eval_set("AB>", set6.clone());
 
@@ -215,7 +215,7 @@ fn main() {
     ex09_eval_set::test_eval_set("ABC||", set9.clone());
     ex09_eval_set::test_eval_set("ABC&&", set10.clone());
     ex09_eval_set::test_eval_set("ABC&&", set9.clone());
-    ex09_eval_set::test_eval_set("ABC^^", set9.clone());
+    ex09_eval_set::test_eval_set("AB^", set5.clone());
     ex09_eval_set::test_eval_set("ABC>>", set9.clone());
 
 

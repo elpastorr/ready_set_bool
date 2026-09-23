@@ -19,7 +19,7 @@ fn main() {
     ex00_adder::test_adder(0, 1);
     ex00_adder::test_adder(1, 1);
     ex00_adder::test_adder(1, 2);
-    ex00_adder::test_adder(2, 2);
+    ex00_adder::test_adder(5, 7);
 
 
     println!("\nex01:");

@@ -21,7 +21,7 @@ fn sat(formula: &str) -> bool {
             letters.push(c);
         }
     }
-    let nb_comb = 2_u32.pow(letters.len() as u32);
+    let nb_comb = 1_u32 << letters.len();
     for i in 0..nb_comb {
         let mut binar_i = format!("{:b}", i);
         while binar_i.len() <  letters.len() {

@@ -17,7 +17,7 @@ fn print_truth_table(formula: &str) {
             println!("Invalid char: '{}'", c as char);
             return;
         }
-        if c.is_alphabetic() && !letters.contains(&c) {
+        if c >= 'A' && c <= 'Z' && !letters.contains(&c) {
             letters.push(c);
         }
     }
@@ -30,7 +30,7 @@ fn print_truth_table(formula: &str) {
     }
     println!("|---|");
 
-    let nb_comb = 2_u32.pow(letters.len() as u32);
+    let nb_comb = 1_u32 << letters.len();
     for i in 0..nb_comb {
         let mut binar_i = format!("{:b}", i);
         while binar_i.len() <  letters.len() {
